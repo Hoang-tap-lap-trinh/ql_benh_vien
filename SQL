@@ -1,0 +1,48 @@
+CREATE DATABASE qlbenhvien;
+USE qlbenhvien;
+
+CREATE TABLE Patients (
+    PatientID INT PRIMARY KEY AUTO_INCREMENT,
+    FullName VARCHAR(100) NOT NULL,
+    Gender VARCHAR(10) NOT NULL,
+    DateOfBirth DATE NOT NULL,
+    PhoneNumber VARCHAR(15) NOT NULL,
+    Address VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Doctors (
+    DoctorID INT PRIMARY KEY AUTO_INCREMENT,
+    FullName VARCHAR(100) NOT NULL,
+    Specialty VARCHAR(50) NOT NULL,
+    PhoneNumber VARCHAR(15) NOT NULL
+);
+
+CREATE TABLE Appointments (
+    AppointmentID INT PRIMARY KEY AUTO_INCREMENT,
+    PatientID INT NOT NULL,
+    DoctorID INT NOT NULL,
+    AppointmentDate DATETIME NOT NULL,
+    Status VARCHAR(50) NOT NULL,
+    FOREIGN KEY (PatientID) REFERENCES Patients(PatientID) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (DoctorID) REFERENCES Doctors(DoctorID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE Reports (
+    ReportID INT PRIMARY KEY AUTO_INCREMENT,
+    ReportDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    TotalPatients INT NOT NULL,
+    TotalDoctors INT NOT NULL,
+    TodayAppointments INT NOT NULL,
+    CompletedAppointments INT NOT NULL
+);
+
+CREATE TABLE MedicalRecord (
+    RecordID INT PRIMARY KEY AUTO_INCREMENT, 
+    PatientID INT NOT NULL,                
+    DiseaseName VARCHAR(255) NOT NULL,    
+    RecordDate DATE NOT NULL,              
+    Doctor VARCHAR(255) NOT NULL,         
+    FOREIGN KEY (PatientID) REFERENCES Patients(PatientID) 
+        ON DELETE CASCADE                 
+        ON UPDATE CASCADE
+);
